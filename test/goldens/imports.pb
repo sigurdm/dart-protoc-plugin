@@ -34,19 +34,21 @@ class M extends $pb.GeneratedMessage {
     if (v is! M) $pb.checkItemFailed(v, _i.messageName);
   }
 
-  M get m => $_getN(0);
+  M get m => $_getN(0, M.getDefault);
   set m(M v) { setField(1, v); }
   bool hasM() => $_has(0);
   void clearM() => clearField(1);
 
-  $0.M get m1 => $_getN(1);
+  $0.M get m1 => $_getN(1, $0.M.getDefault);
   set m1($0.M v) { setField(2, v); }
   bool hasM1() => $_has(1);
   void clearM1() => clearField(2);
 
-  $1.M get m2 => $_getN(2);
+  $1.M get m2 => $_getN(2, $1.M.getDefault);
   set m2($1.M v) { setField(3, v); }
   bool hasM2() => $_has(2);
   void clearM2() => clearField(3);
+  static final _defaults = {1: M.getDefault, 2: $0.M.getDefault, 3: $1.M.getDefault};
+  getField(int tagNumber) =>  $_getField(tagNumber, _defaults[tagNumber]);
 }
 

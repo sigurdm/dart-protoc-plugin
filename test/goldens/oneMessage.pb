@@ -30,7 +30,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
     if (v is! PhoneNumber) $pb.checkItemFailed(v, _i.messageName);
   }
 
-  String get number => $_getS(0, '');
+  String get number => $_get(0, '');
   set number(String v) { $_setString(0, v); }
   bool hasNumber() => $_has(0);
   void clearNumber() => clearField(1);
@@ -40,9 +40,11 @@ class PhoneNumber extends $pb.GeneratedMessage {
   bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
-  String get name => $_getS(2, '\$');
+  String get name => $_get(2, '\$');
   set name(String v) { $_setString(2, v); }
   bool hasName() => $_has(2);
   void clearName() => clearField(3);
+  static final _defaults = {1: () => '', 2: () => 0, 3: () => '\$'};
+  getField(int tagNumber) =>  $_getField(tagNumber, _defaults[tagNumber]);
 }
 

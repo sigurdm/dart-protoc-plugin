@@ -279,6 +279,7 @@ class MessageGenerator extends ProtobufContainer {
             " $_protobufImportPrefix.checkItemFailed(v, _i.messageName);");
       });
       generateFieldsAccessorsMutators(out);
+      generateGetField(out);
       if (fullName == 'google.protobuf.Any') {
         generateAnyMethods(out);
       }
@@ -367,6 +368,12 @@ class MessageGenerator extends ProtobufContainer {
   }''');
   }
 
+  void generateGetField(IndentingWriter out) {
+    String defaultTearoffs = _fieldList.map((ProtobufField field) => '${field.number}: ${field.generateDefaultFunctionx(fileGen)}').join(', ');
+    out.println('static final _defaults = {$defaultTearoffs};');
+    out.println('getField(int tagNumber) =>  \$_getField(tagNumber, _defaults[tagNumber]);');
+  }
+
   void generateFieldsAccessorsMutators(IndentingWriter out) {
     for (ProtobufField field in _fieldList) {
       out.println();
@@ -377,12 +384,11 @@ class MessageGenerator extends ProtobufContainer {
   void generateFieldAccessorsMutators(
       ProtobufField field, IndentingWriter out) {
     var fieldTypeString = field.getDartType(fileGen);
-    var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
 
     _emitOverrideIf(field.overridesGetter, out);
-    var getterExpr = _getterExpression(
-        fieldTypeString, field.index, defaultExpr, field.isRepeated);
+    var getterExpr = _getterExpression(field,
+        fieldTypeString, field.index, field.isRepeated);
     out.println('${fieldTypeString} get ${names.fieldName} => ${getterExpr};');
 
     if (field.isRepeated) {
@@ -421,16 +427,22 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  String _getterExpression(
-      String fieldType, int index, String defaultExpr, bool isRepeated) {
-    if (fieldType == 'String') {
+  String _getterExpression(ProtobufField field,
+      String fieldType, int index, bool isRepeated) {
+    if (field.isRepeated) {
+      return '\$_getList($index)';
+    }
+    if (field.baseType.isMessage || field.baseType.isGroup || field.baseType.isBytes || field.isInt64) {
+      String defaultFunction = field.generateDefaultFunctionx(fileGen);
+      String defaultClause = defaultFunction == null ? '' : ', $defaultFunction';
+      return '\$_getN($index$defaultClause)';
+    }
+    String defaultExpr = field.getDefaultExpr(fileGen);
+    if (field.baseType.isString && defaultExpr == 'null') {
       return '\$_getS($index, $defaultExpr)';
     }
     if (fieldType == 'Int64' && defaultExpr == 'null') {
       return '\$_getI64($index)';
-    }
-    if (defaultExpr == 'null') {
-      return isRepeated ? '\$_getList($index)' : '\$_getN($index)';
     }
     return '\$_get($index, $defaultExpr)';
   }

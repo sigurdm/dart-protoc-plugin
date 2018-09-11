@@ -70,6 +70,13 @@ class Version extends $pb.GeneratedMessage {
 
   bool hasSuffix() => $_has(3);
   void clearSuffix() => clearField(4);
+  static final _defaults = {
+    1: () => null,
+    2: () => null,
+    3: () => null,
+    4: () => null
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
@@ -77,8 +84,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..pPS(1, 'fileToGenerate')
     ..aOS(2, 'parameter')
-    ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM, Version.getDefault,
-        Version.create)
+    ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM, null, Version.create)
     ..pp<$0.FileDescriptorProto>(15, 'protoFile', $pb.PbFieldType.PM,
         $0.FileDescriptorProto.$checkItem, $0.FileDescriptorProto.create);
 
@@ -114,7 +120,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   bool hasParameter() => $_has(1);
   void clearParameter() => clearField(2);
 
-  Version get compilerVersion => $_getN(2);
+  Version get compilerVersion => $_getN(2, Version.getDefault);
   set compilerVersion(Version v) {
     setField(3, v);
   }
@@ -123,6 +129,13 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   void clearCompilerVersion() => clearField(3);
 
   List<$0.FileDescriptorProto> get protoFile => $_getList(3);
+  static final _defaults = {
+    1: () => new $pb.PbList(),
+    2: () => null,
+    3: Version.getDefault,
+    15: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
@@ -183,6 +196,8 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 
   bool hasContent() => $_has(2);
   void clearContent() => clearField(15);
+  static final _defaults = {1: () => null, 2: () => null, 15: () => null};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
@@ -229,4 +244,6 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(1);
 
   List<CodeGeneratorResponse_File> get file => $_getList(1);
+  static final _defaults = {1: () => null, 15: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }

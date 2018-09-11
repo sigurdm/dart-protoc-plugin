@@ -28,6 +28,8 @@ class Empty extends $pb.GeneratedMessage {
   static void $checkItem(Empty v) {
     if (v is! Empty) $pb.checkItemFailed(v, _i.messageName);
   }
+  static final _defaults = {};
+  getField(int tagNumber) =>  $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class TestApi {

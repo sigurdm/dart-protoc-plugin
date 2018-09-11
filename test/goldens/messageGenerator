@@ -1,7 +1,7 @@
 class PhoneNumber extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('PhoneNumber')
     ..aQS(1, 'number')
-    ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
+    ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, null, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
     ..a<String>(3, 'name', $pb.PbFieldType.OS, '\$')
   ;
 
@@ -19,19 +19,21 @@ class PhoneNumber extends $pb.GeneratedMessage {
     if (v is! PhoneNumber) $pb.checkItemFailed(v, _i.messageName);
   }
 
-  String get number => $_getS(0, '');
+  String get number => $_get(0, '');
   set number(String v) { $_setString(0, v); }
   bool hasNumber() => $_has(0);
   void clearNumber() => clearField(1);
 
-  PhoneNumber_PhoneType get type => $_getN(1);
+  PhoneNumber_PhoneType get type => $_get(1, PhoneNumber_PhoneType.MOBILE);
   set type(PhoneNumber_PhoneType v) { setField(2, v); }
   bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
-  String get name => $_getS(2, '\$');
+  String get name => $_get(2, '\$');
   set name(String v) { $_setString(2, v); }
   bool hasName() => $_has(2);
   void clearName() => clearField(3);
+  static final _defaults = {1: () => '', 2: () => PhoneNumber_PhoneType.MOBILE, 3: () => '\$'};
+  getField(int tagNumber) =>  $_getField(tagNumber, _defaults[tagNumber]);
 }
 

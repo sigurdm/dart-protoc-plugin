@@ -59,6 +59,8 @@ class DartMixin extends $pb.GeneratedMessage {
 
   bool hasParent() => $_has(2);
   void clearParent() => clearField(3);
+  static final _defaults = {1: () => null, 2: () => null, 3: () => null};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class Imports extends $pb.GeneratedMessage {
@@ -88,6 +90,8 @@ class Imports extends $pb.GeneratedMessage {
   }
 
   List<DartMixin> get mixins => $_getList(0);
+  static final _defaults = {1: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class Dart_options {
@@ -96,7 +100,7 @@ class Dart_options {
       'imports',
       28125061,
       $pb.PbFieldType.OM,
-      Imports.getDefault,
+      null,
       Imports.create);
   static final $pb.Extension defaultMixin = new $pb.Extension<String>(
       'google.protobuf.FileOptions',

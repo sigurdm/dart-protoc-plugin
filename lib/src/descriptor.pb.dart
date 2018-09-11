@@ -42,6 +42,8 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   }
 
   List<FileDescriptorProto> get file => $_getList(0);
+  static final _defaults = {1: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
@@ -58,10 +60,9 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
         ServiceDescriptorProto.$checkItem, ServiceDescriptorProto.create)
     ..pp<FieldDescriptorProto>(7, 'extension', $pb.PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
-    ..a<FileOptions>(8, 'options', $pb.PbFieldType.OM, FileOptions.getDefault,
-        FileOptions.create)
-    ..a<SourceCodeInfo>(9, 'sourceCodeInfo', $pb.PbFieldType.OM,
-        SourceCodeInfo.getDefault, SourceCodeInfo.create)
+    ..a<FileOptions>(8, 'options', $pb.PbFieldType.OM, null, FileOptions.create)
+    ..a<SourceCodeInfo>(
+        9, 'sourceCodeInfo', $pb.PbFieldType.OM, null, SourceCodeInfo.create)
     ..p<int>(10, 'publicDependency', $pb.PbFieldType.P3)
     ..p<int>(11, 'weakDependency', $pb.PbFieldType.P3)
     ..aOS(12, 'syntax');
@@ -114,7 +115,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
   List<FieldDescriptorProto> get extension => $_getList(6);
 
-  FileOptions get options => $_getN(7);
+  FileOptions get options => $_getN(7, FileOptions.getDefault);
   set options(FileOptions v) {
     setField(8, v);
   }
@@ -122,7 +123,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   bool hasOptions() => $_has(7);
   void clearOptions() => clearField(8);
 
-  SourceCodeInfo get sourceCodeInfo => $_getN(8);
+  SourceCodeInfo get sourceCodeInfo => $_getN(8, SourceCodeInfo.getDefault);
   set sourceCodeInfo(SourceCodeInfo v) {
     setField(9, v);
   }
@@ -141,6 +142,21 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
   bool hasSyntax() => $_has(11);
   void clearSyntax() => clearField(12);
+  static final _defaults = {
+    1: () => null,
+    2: () => null,
+    3: () => new $pb.PbList(),
+    4: () => new $pb.PbList(),
+    5: () => new $pb.PbList(),
+    6: () => new $pb.PbList(),
+    7: () => new $pb.PbList(),
+    8: FileOptions.getDefault,
+    9: SourceCodeInfo.getDefault,
+    10: () => new $pb.PbList(),
+    11: () => new $pb.PbList(),
+    12: () => null
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
@@ -192,6 +208,8 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 
   bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
+  static final _defaults = {1: () => null, 2: () => null};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
@@ -243,6 +261,8 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 
   bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
+  static final _defaults = {1: () => null, 2: () => null};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class DescriptorProto extends $pb.GeneratedMessage {
@@ -263,8 +283,8 @@ class DescriptorProto extends $pb.GeneratedMessage {
         DescriptorProto_ExtensionRange.create)
     ..pp<FieldDescriptorProto>(6, 'extension', $pb.PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
-    ..a<MessageOptions>(7, 'options', $pb.PbFieldType.OM,
-        MessageOptions.getDefault, MessageOptions.create)
+    ..a<MessageOptions>(
+        7, 'options', $pb.PbFieldType.OM, null, MessageOptions.create)
     ..pp<OneofDescriptorProto>(8, 'oneofDecl', $pb.PbFieldType.PM,
         OneofDescriptorProto.$checkItem, OneofDescriptorProto.create)
     ..pp<DescriptorProto_ReservedRange>(
@@ -314,7 +334,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
 
   List<FieldDescriptorProto> get extension => $_getList(5);
 
-  MessageOptions get options => $_getN(6);
+  MessageOptions get options => $_getN(6, MessageOptions.getDefault);
   set options(MessageOptions v) {
     setField(7, v);
   }
@@ -327,6 +347,19 @@ class DescriptorProto extends $pb.GeneratedMessage {
   List<DescriptorProto_ReservedRange> get reservedRange => $_getList(8);
 
   List<String> get reservedName => $_getList(9);
+  static final _defaults = {
+    1: () => null,
+    2: () => new $pb.PbList(),
+    3: () => new $pb.PbList(),
+    4: () => new $pb.PbList(),
+    5: () => new $pb.PbList(),
+    6: () => new $pb.PbList(),
+    7: MessageOptions.getDefault,
+    8: () => new $pb.PbList(),
+    9: () => new $pb.PbList(),
+    10: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
@@ -335,24 +368,14 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..aOS(2, 'extendee')
     ..a<int>(3, 'number', $pb.PbFieldType.O3)
-    ..e<FieldDescriptorProto_Label>(
-        4,
-        'label',
-        $pb.PbFieldType.OE,
-        FieldDescriptorProto_Label.LABEL_OPTIONAL,
-        FieldDescriptorProto_Label.valueOf,
-        FieldDescriptorProto_Label.values)
-    ..e<FieldDescriptorProto_Type>(
-        5,
-        'type',
-        $pb.PbFieldType.OE,
-        FieldDescriptorProto_Type.TYPE_DOUBLE,
-        FieldDescriptorProto_Type.valueOf,
-        FieldDescriptorProto_Type.values)
+    ..e<FieldDescriptorProto_Label>(4, 'label', $pb.PbFieldType.OE, null,
+        FieldDescriptorProto_Label.valueOf, FieldDescriptorProto_Label.values)
+    ..e<FieldDescriptorProto_Type>(5, 'type', $pb.PbFieldType.OE, null,
+        FieldDescriptorProto_Type.valueOf, FieldDescriptorProto_Type.values)
     ..aOS(6, 'typeName')
     ..aOS(7, 'defaultValue')
-    ..a<FieldOptions>(8, 'options', $pb.PbFieldType.OM, FieldOptions.getDefault,
-        FieldOptions.create)
+    ..a<FieldOptions>(
+        8, 'options', $pb.PbFieldType.OM, null, FieldOptions.create)
     ..a<int>(9, 'oneofIndex', $pb.PbFieldType.O3)
     ..aOS(10, 'jsonName');
 
@@ -402,7 +425,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   bool hasNumber() => $_has(2);
   void clearNumber() => clearField(3);
 
-  FieldDescriptorProto_Label get label => $_getN(3);
+  FieldDescriptorProto_Label get label =>
+      $_getN(3, () => FieldDescriptorProto_Label.LABEL_OPTIONAL);
   set label(FieldDescriptorProto_Label v) {
     setField(4, v);
   }
@@ -410,7 +434,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   bool hasLabel() => $_has(3);
   void clearLabel() => clearField(4);
 
-  FieldDescriptorProto_Type get type => $_getN(4);
+  FieldDescriptorProto_Type get type =>
+      $_getN(4, () => FieldDescriptorProto_Type.TYPE_DOUBLE);
   set type(FieldDescriptorProto_Type v) {
     setField(5, v);
   }
@@ -434,7 +459,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   bool hasDefaultValue() => $_has(6);
   void clearDefaultValue() => clearField(7);
 
-  FieldOptions get options => $_getN(7);
+  FieldOptions get options => $_getN(7, FieldOptions.getDefault);
   set options(FieldOptions v) {
     setField(8, v);
   }
@@ -457,14 +482,27 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 
   bool hasJsonName() => $_has(9);
   void clearJsonName() => clearField(10);
+  static final _defaults = {
+    1: () => null,
+    2: () => null,
+    3: () => null,
+    4: () => FieldDescriptorProto_Label.LABEL_OPTIONAL,
+    5: () => FieldDescriptorProto_Type.TYPE_DOUBLE,
+    6: () => null,
+    7: () => null,
+    8: FieldOptions.getDefault,
+    9: () => null,
+    10: () => null
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
-    ..a<OneofOptions>(2, 'options', $pb.PbFieldType.OM, OneofOptions.getDefault,
-        OneofOptions.create);
+    ..a<OneofOptions>(
+        2, 'options', $pb.PbFieldType.OM, null, OneofOptions.create);
 
   OneofDescriptorProto() : super();
   OneofDescriptorProto.fromBuffer(List<int> i,
@@ -496,13 +534,15 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  OneofOptions get options => $_getN(1);
+  OneofOptions get options => $_getN(1, OneofOptions.getDefault);
   set options(OneofOptions v) {
     setField(2, v);
   }
 
   bool hasOptions() => $_has(1);
   void clearOptions() => clearField(2);
+  static final _defaults = {1: () => null, 2: OneofOptions.getDefault};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
@@ -511,8 +551,8 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..pp<EnumValueDescriptorProto>(2, 'value', $pb.PbFieldType.PM,
         EnumValueDescriptorProto.$checkItem, EnumValueDescriptorProto.create)
-    ..a<EnumOptions>(3, 'options', $pb.PbFieldType.OM, EnumOptions.getDefault,
-        EnumOptions.create);
+    ..a<EnumOptions>(
+        3, 'options', $pb.PbFieldType.OM, null, EnumOptions.create);
 
   EnumDescriptorProto() : super();
   EnumDescriptorProto.fromBuffer(List<int> i,
@@ -546,13 +586,19 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 
   List<EnumValueDescriptorProto> get value => $_getList(1);
 
-  EnumOptions get options => $_getN(2);
+  EnumOptions get options => $_getN(2, EnumOptions.getDefault);
   set options(EnumOptions v) {
     setField(3, v);
   }
 
   bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
+  static final _defaults = {
+    1: () => null,
+    2: () => new $pb.PbList(),
+    3: EnumOptions.getDefault
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
@@ -561,8 +607,8 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..a<int>(2, 'number', $pb.PbFieldType.O3)
-    ..a<EnumValueOptions>(3, 'options', $pb.PbFieldType.OM,
-        EnumValueOptions.getDefault, EnumValueOptions.create);
+    ..a<EnumValueOptions>(
+        3, 'options', $pb.PbFieldType.OM, null, EnumValueOptions.create);
 
   EnumValueDescriptorProto() : super();
   EnumValueDescriptorProto.fromBuffer(List<int> i,
@@ -603,13 +649,19 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   bool hasNumber() => $_has(1);
   void clearNumber() => clearField(2);
 
-  EnumValueOptions get options => $_getN(2);
+  EnumValueOptions get options => $_getN(2, EnumValueOptions.getDefault);
   set options(EnumValueOptions v) {
     setField(3, v);
   }
 
   bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
+  static final _defaults = {
+    1: () => null,
+    2: () => null,
+    3: EnumValueOptions.getDefault
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
@@ -619,8 +671,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..pp<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
         MethodDescriptorProto.$checkItem, MethodDescriptorProto.create)
-    ..a<ServiceOptions>(3, 'options', $pb.PbFieldType.OM,
-        ServiceOptions.getDefault, ServiceOptions.create);
+    ..a<ServiceOptions>(
+        3, 'options', $pb.PbFieldType.OM, null, ServiceOptions.create);
 
   ServiceDescriptorProto() : super();
   ServiceDescriptorProto.fromBuffer(List<int> i,
@@ -655,13 +707,19 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 
   List<MethodDescriptorProto> get method => $_getList(1);
 
-  ServiceOptions get options => $_getN(2);
+  ServiceOptions get options => $_getN(2, ServiceOptions.getDefault);
   set options(ServiceOptions v) {
     setField(3, v);
   }
 
   bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
+  static final _defaults = {
+    1: () => null,
+    2: () => new $pb.PbList(),
+    3: ServiceOptions.getDefault
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
@@ -670,8 +728,8 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..aOS(2, 'inputType')
     ..aOS(3, 'outputType')
-    ..a<MethodOptions>(4, 'options', $pb.PbFieldType.OM,
-        MethodOptions.getDefault, MethodOptions.create)
+    ..a<MethodOptions>(
+        4, 'options', $pb.PbFieldType.OM, null, MethodOptions.create)
     ..aOB(5, 'clientStreaming')
     ..aOB(6, 'serverStreaming');
 
@@ -722,7 +780,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   bool hasOutputType() => $_has(2);
   void clearOutputType() => clearField(3);
 
-  MethodOptions get options => $_getN(3);
+  MethodOptions get options => $_getN(3, MethodOptions.getDefault);
   set options(MethodOptions v) {
     setField(4, v);
   }
@@ -745,6 +803,15 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 
   bool hasServerStreaming() => $_has(5);
   void clearServerStreaming() => clearField(6);
+  static final _defaults = {
+    1: () => null,
+    2: () => null,
+    3: () => null,
+    4: MethodOptions.getDefault,
+    5: () => null,
+    6: () => null
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class FileOptions extends $pb.GeneratedMessage {
@@ -752,13 +819,8 @@ class FileOptions extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'javaPackage')
     ..aOS(8, 'javaOuterClassname')
-    ..e<FileOptions_OptimizeMode>(
-        9,
-        'optimizeFor',
-        $pb.PbFieldType.OE,
-        FileOptions_OptimizeMode.SPEED,
-        FileOptions_OptimizeMode.valueOf,
-        FileOptions_OptimizeMode.values)
+    ..e<FileOptions_OptimizeMode>(9, 'optimizeFor', $pb.PbFieldType.OE, null,
+        FileOptions_OptimizeMode.valueOf, FileOptions_OptimizeMode.values)
     ..aOB(10, 'javaMultipleFiles')
     ..aOS(11, 'goPackage')
     ..aOB(16, 'ccGenericServices')
@@ -813,7 +875,8 @@ class FileOptions extends $pb.GeneratedMessage {
   bool hasJavaOuterClassname() => $_has(1);
   void clearJavaOuterClassname() => clearField(8);
 
-  FileOptions_OptimizeMode get optimizeFor => $_getN(2);
+  FileOptions_OptimizeMode get optimizeFor =>
+      $_getN(2, () => FileOptions_OptimizeMode.SPEED);
   set optimizeFor(FileOptions_OptimizeMode v) {
     setField(9, v);
   }
@@ -934,6 +997,27 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearPhpNamespace() => clearField(41);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(17);
+  static final _defaults = {
+    1: () => null,
+    8: () => null,
+    9: () => FileOptions_OptimizeMode.SPEED,
+    10: () => null,
+    11: () => null,
+    16: () => null,
+    17: () => null,
+    18: () => null,
+    20: () => null,
+    23: () => null,
+    27: () => null,
+    31: () => null,
+    36: () => null,
+    37: () => null,
+    39: () => null,
+    40: () => null,
+    41: () => null,
+    999: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
@@ -1000,28 +1084,26 @@ class MessageOptions extends $pb.GeneratedMessage {
   void clearMapEntry() => clearField(7);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(4);
+  static final _defaults = {
+    1: () => null,
+    2: () => null,
+    3: () => null,
+    7: () => null,
+    999: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldOptions',
       package: const $pb.PackageName('google.protobuf'))
-    ..e<FieldOptions_CType>(
-        1,
-        'ctype',
-        $pb.PbFieldType.OE,
-        FieldOptions_CType.STRING,
-        FieldOptions_CType.valueOf,
-        FieldOptions_CType.values)
+    ..e<FieldOptions_CType>(1, 'ctype', $pb.PbFieldType.OE, null,
+        FieldOptions_CType.valueOf, FieldOptions_CType.values)
     ..aOB(2, 'packed')
     ..aOB(3, 'deprecated')
     ..aOB(5, 'lazy')
-    ..e<FieldOptions_JSType>(
-        6,
-        'jstype',
-        $pb.PbFieldType.OE,
-        FieldOptions_JSType.JS_NORMAL,
-        FieldOptions_JSType.valueOf,
-        FieldOptions_JSType.values)
+    ..e<FieldOptions_JSType>(6, 'jstype', $pb.PbFieldType.OE, null,
+        FieldOptions_JSType.valueOf, FieldOptions_JSType.values)
     ..aOB(10, 'weak')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
@@ -1047,7 +1129,7 @@ class FieldOptions extends $pb.GeneratedMessage {
     if (v is! FieldOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
-  FieldOptions_CType get ctype => $_getN(0);
+  FieldOptions_CType get ctype => $_getN(0, () => FieldOptions_CType.STRING);
   set ctype(FieldOptions_CType v) {
     setField(1, v);
   }
@@ -1079,7 +1161,8 @@ class FieldOptions extends $pb.GeneratedMessage {
   bool hasLazy() => $_has(3);
   void clearLazy() => clearField(5);
 
-  FieldOptions_JSType get jstype => $_getN(4);
+  FieldOptions_JSType get jstype =>
+      $_getN(4, () => FieldOptions_JSType.JS_NORMAL);
   set jstype(FieldOptions_JSType v) {
     setField(6, v);
   }
@@ -1096,6 +1179,16 @@ class FieldOptions extends $pb.GeneratedMessage {
   void clearWeak() => clearField(10);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(6);
+  static final _defaults = {
+    1: () => FieldOptions_CType.STRING,
+    2: () => null,
+    3: () => null,
+    5: () => null,
+    6: () => FieldOptions_JSType.JS_NORMAL,
+    10: () => null,
+    999: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
@@ -1126,6 +1219,8 @@ class OneofOptions extends $pb.GeneratedMessage {
   }
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(0);
+  static final _defaults = {999: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
@@ -1174,6 +1269,12 @@ class EnumOptions extends $pb.GeneratedMessage {
   void clearDeprecated() => clearField(3);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(2);
+  static final _defaults = {
+    2: () => null,
+    3: () => null,
+    999: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
@@ -1214,6 +1315,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   void clearDeprecated() => clearField(1);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(1);
+  static final _defaults = {1: () => null, 999: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
@@ -1253,6 +1356,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
   void clearDeprecated() => clearField(33);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(1);
+  static final _defaults = {33: () => null, 999: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
@@ -1263,7 +1368,7 @@ class MethodOptions extends $pb.GeneratedMessage {
         34,
         'idempotencyLevel',
         $pb.PbFieldType.OE,
-        MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
+        null,
         MethodOptions_IdempotencyLevel.valueOf,
         MethodOptions_IdempotencyLevel.values)
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -1298,7 +1403,8 @@ class MethodOptions extends $pb.GeneratedMessage {
   bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(33);
 
-  MethodOptions_IdempotencyLevel get idempotencyLevel => $_getN(1);
+  MethodOptions_IdempotencyLevel get idempotencyLevel =>
+      $_getN(1, () => MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN);
   set idempotencyLevel(MethodOptions_IdempotencyLevel v) {
     setField(34, v);
   }
@@ -1307,6 +1413,12 @@ class MethodOptions extends $pb.GeneratedMessage {
   void clearIdempotencyLevel() => clearField(34);
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(2);
+  static final _defaults = {
+    33: () => null,
+    34: () => MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
+    999: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
@@ -1357,6 +1469,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 
   bool hasIsExtension() => $_has(1);
   void clearIsExtension() => clearField(2);
+  static final _defaults = {1: () => null, 2: () => null};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class UninterpretedOption extends $pb.GeneratedMessage {
@@ -1446,6 +1560,16 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 
   bool hasAggregateValue() => $_has(6);
   void clearAggregateValue() => clearField(8);
+  static final _defaults = {
+    2: () => new $pb.PbList(),
+    3: () => null,
+    4: Int64.ZERO,
+    5: Int64.ZERO,
+    6: null,
+    7: null,
+    8: () => null
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
@@ -1503,6 +1627,14 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   void clearTrailingComments() => clearField(4);
 
   List<String> get leadingDetachedComments => $_getList(4);
+  static final _defaults = {
+    1: () => new $pb.PbList(),
+    2: () => new $pb.PbList(),
+    3: () => null,
+    4: () => null,
+    6: () => new $pb.PbList()
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
@@ -1533,6 +1665,8 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   }
 
   List<SourceCodeInfo_Location> get location => $_getList(0);
+  static final _defaults = {1: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
@@ -1596,6 +1730,13 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 
   bool hasEnd() => $_has(3);
   void clearEnd() => clearField(4);
+  static final _defaults = {
+    1: () => new $pb.PbList(),
+    2: () => null,
+    3: () => null,
+    4: () => null
+  };
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }
 
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
@@ -1631,4 +1772,6 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   }
 
   List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
+  static final _defaults = {1: () => new $pb.PbList()};
+  getField(int tagNumber) => $_getField(tagNumber, _defaults[tagNumber]);
 }

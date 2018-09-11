@@ -55,6 +55,17 @@ class ProtobufField {
   bool get isPacked =>
       isRepeated && descriptor.options != null && descriptor.options.packed;
 
+  bool get isInt64 {
+    FieldDescriptorProto_Type type = descriptor.type;
+    return const [
+      FieldDescriptorProto_Type.TYPE_INT64,
+      FieldDescriptorProto_Type.TYPE_SINT64,
+      FieldDescriptorProto_Type.TYPE_FIXED64,
+      FieldDescriptorProto_Type.TYPE_UINT64,
+      FieldDescriptorProto_Type.TYPE_SFIXED64
+    ].contains(type);
+  }
+
   /// Whether the field has the `overrideGetter` annotation set to true.
   bool get overridesGetter => _hasBooleanOption(Dart_options.overrideGetter);
 
@@ -124,7 +135,7 @@ class ProtobufField {
     if (baseType.isEnum) {
       String enumParams = '$type.valueOf, $type.values';
       return '..e<$type>('
-          '$number, $quotedName, $typeConstant, $makeDefault, $enumParams)';
+          '$number, $quotedName, $typeConstant, null, $enumParams)';
     }
 
     String prefix = '..a<$type>($number, $quotedName, $typeConstant';
@@ -165,7 +176,7 @@ class ProtobufField {
   ///
   /// Returns "null" if unavailable, in which case FieldSet._getDefault()
   /// should be called instead.
-  String getDefaultExpr() {
+  String getDefaultExpr(FileGenerator fileGen) {
     if (isRepeated) return "null";
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
@@ -178,6 +189,20 @@ class ProtobufField {
         return _getDefaultAsInt32Expr("0");
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr("''");
+      case FieldDescriptorProto_Type.TYPE_FLOAT:
+      case FieldDescriptorProto_Type.TYPE_DOUBLE:
+        return _getDefaultAsFloatExpr('0.0');
+      case FieldDescriptorProto_Type.TYPE_ENUM:
+        bool sameProtoFile =
+            fileGen.protoFileUri == baseType.generator?.fileGen?.protoFileUri;
+        var className = sameProtoFile ? baseType.unprefixed : baseType.prefixed;
+        EnumGenerator gen = baseType.generator;
+        if (descriptor.hasDefaultValue() && !descriptor.defaultValue.isEmpty) {
+          return '$className.${descriptor.defaultValue}';
+        } else if (!gen._canonicalValues.isEmpty) {
+          return '$className.${gen._canonicalValues[0].name}';
+        }
+        return null;
       default:
         return "null";
     }
@@ -246,8 +271,8 @@ class ProtobufField {
         return '() => <int>[$byteList]';
       case FieldDescriptorProto_Type.TYPE_GROUP:
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
-        if (sameProtoFile) return '${baseType.unprefixed}.getDefault';
-        return "${baseType.prefixed}.getDefault";
+        var className = sameProtoFile ? baseType.unprefixed : baseType.prefixed;
+        return '$className.getDefault';
       case FieldDescriptorProto_Type.TYPE_ENUM:
         var className = sameProtoFile ? baseType.unprefixed : baseType.prefixed;
         EnumGenerator gen = baseType.generator;
@@ -255,6 +280,85 @@ class ProtobufField {
           return '$className.${descriptor.defaultValue}';
         } else if (!gen._canonicalValues.isEmpty) {
           return '$className.${gen._canonicalValues[0].name}';
+        }
+        return null;
+      default:
+        throw _typeNotImplemented("generatedDefaultFunction");
+    }
+  }
+
+  /// Returns a function expression that returns the field's default value.
+  ///
+  /// [fileGen] represents the .proto file where the expression will be
+  /// evaluated.
+  String generateDefaultFunctionx(FileGenerator fileGen) {
+    if (isRepeated) {
+      return '() => new $_protobufImportPrefix.PbList()';
+    }
+    bool sameProtoFile =
+        fileGen.protoFileUri == baseType.generator?.fileGen?.protoFileUri;
+
+    switch (descriptor.type) {
+      case FieldDescriptorProto_Type.TYPE_BOOL:
+        return '() => ${_getDefaultAsBoolExpr(null)}';
+      case FieldDescriptorProto_Type.TYPE_FLOAT:
+      case FieldDescriptorProto_Type.TYPE_DOUBLE:
+        if (!descriptor.hasDefaultValue()) {
+          return null;
+        } else if ('0.0' == descriptor.defaultValue ||
+            '0' == descriptor.defaultValue) {
+          return null;
+        } else if (descriptor.defaultValue == 'inf') {
+          return '() => double.infinity';
+        } else if (descriptor.defaultValue == '-inf') {
+          return '() => double.negativeInfinity';
+        } else if (descriptor.defaultValue == 'nan') {
+          return '() => double.nan';
+        } else if (HEX_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+          return '(${descriptor.defaultValue}).toDouble()';
+        } else if (INTEGER_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+          return '() => ${descriptor.defaultValue}.0';
+        } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(descriptor.defaultValue) ||
+            DECIMAL_LITERAL_REGEX_B.hasMatch(descriptor.defaultValue)) {
+          return '() => ${descriptor.defaultValue}';
+        }
+        throw _invalidDefaultValue;
+      case FieldDescriptorProto_Type.TYPE_INT32:
+      case FieldDescriptorProto_Type.TYPE_UINT32:
+      case FieldDescriptorProto_Type.TYPE_SINT32:
+      case FieldDescriptorProto_Type.TYPE_FIXED32:
+      case FieldDescriptorProto_Type.TYPE_SFIXED32:
+        return '() => ${_getDefaultAsInt32Expr('0')}';
+      case FieldDescriptorProto_Type.TYPE_INT64:
+      case FieldDescriptorProto_Type.TYPE_UINT64:
+      case FieldDescriptorProto_Type.TYPE_SINT64:
+      case FieldDescriptorProto_Type.TYPE_FIXED64:
+      case FieldDescriptorProto_Type.TYPE_SFIXED64:
+        var value = '0';
+        if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
+        if (value == '0') return '() => Int64.ZERO';
+        return "() => $_protobufImportPrefix.parseLongInt('$value')";
+      case FieldDescriptorProto_Type.TYPE_STRING:
+        return '() => ${_getDefaultAsStringExpr('\'\'')}';
+      case FieldDescriptorProto_Type.TYPE_BYTES:
+        if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
+          return '() => <int>[]';
+        }
+        String byteList = descriptor.defaultValue.codeUnits
+            .map((b) => '0x${b.toRadixString(16)}')
+            .join(',');
+        return '() => <int>[$byteList]';
+      case FieldDescriptorProto_Type.TYPE_GROUP:
+      case FieldDescriptorProto_Type.TYPE_MESSAGE:
+        if (sameProtoFile) return '${baseType.unprefixed}.getDefault';
+        return "${baseType.prefixed}.getDefault";
+      case FieldDescriptorProto_Type.TYPE_ENUM:
+        var className = sameProtoFile ? baseType.unprefixed : baseType.prefixed;
+        EnumGenerator gen = baseType.generator;
+        if (descriptor.hasDefaultValue() && !descriptor.defaultValue.isEmpty) {
+          return '() => $className.${descriptor.defaultValue}';
+        } else if (!gen._canonicalValues.isEmpty) {
+          return '() => $className.${gen._canonicalValues[0].name}';
         }
         return null;
       default:
@@ -276,6 +380,28 @@ class ProtobufField {
     // TODO(skybrian): fix dubious escaping.
     String value = descriptor.defaultValue.replaceAll(r'$', r'\$');
     return '\'$value\'';
+  }
+
+  String _getDefaultAsFloatExpr(String noDefault) {
+    String defaultValue = descriptor.defaultValue;
+    if (!descriptor.hasDefaultValue() || defaultValue.isEmpty) {
+      return noDefault;
+    }
+    if (defaultValue == 'inf') {
+      return 'double.infinity';
+    } else if (defaultValue == '-inf') {
+      return 'double.negativeInfinity';
+    } else if (defaultValue == 'nan') {
+      return 'double.nan';
+    } else if (HEX_LITERAL_REGEX.hasMatch(defaultValue)) {
+      return '($defaultValue).toDouble()';
+    } else if (INTEGER_LITERAL_REGEX.hasMatch(defaultValue)) {
+      return '${defaultValue}.0';
+    } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(defaultValue) ||
+        DECIMAL_LITERAL_REGEX_B.hasMatch(defaultValue)) {
+      return '${defaultValue}';
+    }
+    throw _invalidDefaultValue;
   }
 
   String _getDefaultAsInt32Expr(String noDefault) {
